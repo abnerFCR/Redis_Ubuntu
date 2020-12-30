@@ -81,6 +81,35 @@ r = redis.Redis(connection_pool = pool)
 Seguir los pasos de la documentacion oficial
 
 https://linkerd.io/2/getting-started/
+```sh
+#curl -sL https://run.linkerd.io/install | sh
+#export PATH=$PATH:$HOME/.linkerd2/bin #add line to ~/.profile
+#linkerd version
+#linkerd check --pre
+#linkerd install | kubectl apply -f -
+```
+
+### Instalacion Helm
+
+```sh
+wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
+tar -xzvf [nombre_archivo_descargado]
+sudo mv linux-amd64/helm /sbin
+helm repo add stable 	https://charts.helm.sh/stable
+helm search repo stable
+```
+
+Despues se crea un namespace con el nombre nginx-ingress
+```sh
+$ kubectl create ns nginx-ingress
+```
+
+Ahora Helm+Nginx Ingress
+```sh
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx 
+helm repo update 
+helm install nginx-ingress ingress-nginx/ingress-nginx -n nginx-ingress
+```
 
 
 
