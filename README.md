@@ -111,5 +111,34 @@ helm repo update
 helm install nginx-ingress ingress-nginx/ingress-nginx -n nginx-ingress
 ```
 
+### Inyectar Ingress
+Una vez que ya hemos instalado nginx-ingress tenemos que inyectarlo. 
 
+Primero obtenemos la ip que se le asigno 
+```sh
+$ kubectl get service -n nginx-ingress
+```
+
+Obtenemos el nombre del deploy que instalamos con helm 
+```sh
+$kubectl get deployments -n nginx-ingress
+```
+
+Con el nombre del deployment podemos inyectar el ingress configurando su archivo de configuracion
+
+```sh
+kubectl get deployment [NOMBRE_DEPLOYMENT]-n nginx-ingress -o yaml | linkerd inject --ingress - | kubectl apply -f -
+```
+ 
+Para verificar que el proceso se haya realizado correctamente se debe ingresar este comando 
+
+```sh
+kubectl describe pods [NOMBRE_POD] -n nginx-ingress | grep "linkerd.io/inject: ingress"
+```
+
+Obteniendo la siguiente respuesta
+
+```sh
+linkerd.io/inject: ingress
+```
 
